@@ -1,9 +1,10 @@
-import { Body, Controller, Get, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
 import { UsuariosArmazenados } from "./usuario.dm";
 import { UsuarioEntity } from "./usuario.entity";
 import { criaUsuarioDTO } from "./dto/usuario.dto";
 import {v4 as uuid} from 'uuid';
 import { ListaUsuarioDTO } from "./dto/consulta.dto";
+import { alteraUsuarioDTO } from "./dto/alteraUsuario.dto";
 
 @Controller('/usuarios') //@ = decorator -> define um tipo especifico de ação para aquela coisa
 export class UsuarioController{
@@ -35,10 +36,32 @@ export class UsuarioController{
                 usuario.email
             )
         )
+
+        return listaRetorno;
+    }
+
+    @Put('/:id')
+    async atualizaUsuario(@Param('id') id: string, @Body() novosDados: alteraUsuarioDTO){
+        const usuarioAtualizado = await this.clsUsuariosArmazenados.atualizausuario(id, novosDados)
+
+        return{
+            usuario: usuarioAtualizado,
+            message: 'Usuario atualizado com sucesso.'
+        }
+    }
+
+    @Delete('/:id')
+    async removeUsusario(@Param('id') id: string){
+        const usuarioRemovido = await this.clsUsuariosArmazenados.removeUsuario(id)
+
+        return{
+            usuario: usuarioRemovido,
+            message: 'Usuário removido.'
+        }
     }
 }
 
 // post -> envia dados para a API/inserir informações/passar info.
 // get -> consulta dados/retorna informações
-// pot -> modifica/altera dados
+// put -> modifica/altera dados
 // delete -> exclui dados 
