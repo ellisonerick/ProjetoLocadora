@@ -24,7 +24,7 @@ export class UsuarioController{
         }
         return usuario;
     }
-
+    
     @Get()
     async listaUsuarios(){
 
