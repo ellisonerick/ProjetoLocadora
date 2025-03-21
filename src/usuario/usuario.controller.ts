@@ -5,6 +5,7 @@ import { criaUsuarioDTO } from "./dto/usuario.dto";
 import {v4 as uuid} from 'uuid';
 import { ListaUsuarioDTO } from "./dto/consulta.dto";
 import { alteraUsuarioDTO } from "./dto/alteraUsuario.dto";
+import { LoginUsuarioDTO } from "./dto/loginUsuario.dto";
 
 @Controller('/usuarios') //@ = decorator -> define um tipo especifico de ação para aquela coisa
 export class UsuarioController{
@@ -57,6 +58,16 @@ export class UsuarioController{
         return{
             usuario: usuarioRemovido,
             message: 'Usuário removido.'
+        }
+    }
+
+    @Post('/login')
+    async login(@Body() dadosLogin: LoginUsuarioDTO){
+        var login = this.clsUsuariosArmazenados.validaLogin(dadosLogin.email,dadosLogin.senha);
+        return{
+            status: login.login,
+            usuario: login.login?login.usuario:null,
+            message: login.login?'Login efetuado':'Usuário ou senha inválidos'
         }
     }
 }
