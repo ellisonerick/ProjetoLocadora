@@ -19,16 +19,15 @@ export class UsuariosArmazenados{
 
         Object.entries(dadosAtualizacao).forEach( //forEach -> para cada dado do obejto ele executa a função.
             ([chave,valor]) => {
+                if (valor === undefined){
+                    return
+                }
                 if(chave === 'id'){
                     return
                 }else if(chave === 'senha'){
                     usuario.trocarSenha(valor);
                     return
                 }
-                if (valor === undefined){
-                    return
-                }
-                
                 usuario[chave] = valor;
             }
         )

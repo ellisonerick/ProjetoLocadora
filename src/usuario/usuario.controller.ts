@@ -6,6 +6,10 @@ import {v4 as uuid} from 'uuid';
 import { ListaUsuarioDTO } from "./dto/consulta.dto";
 import { alteraUsuarioDTO } from "./dto/alteraUsuario.dto";
 import { LoginUsuarioDTO } from "./dto/loginUsuario.dto";
+import { ApiResponse, ApiTags } from "@nestjs/swagger";
+
+@ApiTags('usuario')
+//decorator rsponsavel por definir que essa classe
 
 @Controller('/usuarios') //@ = decorator -> define um tipo especifico de ação para aquela coisa
 export class UsuarioController{
@@ -13,6 +17,7 @@ export class UsuarioController{
         
     }
     @Post()
+    @ApiResponse({status: 201, description:'Retorna que houve sucesso'})
     async criaUsuario(@Body() dadosUsuario: criaUsuarioDTO){
 
         var novoUsuario = new UsuarioEntity(uuid(),dadosUsuario.nome,dadosUsuario.idade,dadosUsuario.cidade,
