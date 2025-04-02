@@ -1,7 +1,7 @@
 import { IsEmail, IsInt, IsNotEmpty, IsOptional, IsString, MinLength } from "class-validator";
 import { EmailUnico } from "../validacao/email-unico.validator";
 import { SenhaForte } from "../validacao/senha-forte.validator";
-import { ApiPropertyOptional } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
 
 export class alteraUsuarioDTO{
@@ -24,11 +24,19 @@ export class alteraUsuarioDTO{
 
     @IsString()
     @IsOptional()
-    @ApiPropertyOptional({
-        example: 'Bauru',
-        description: 'Deve ser enviado apenas o nome da cidade'
+    @ApiProperty({
+        example: '17067200',
+        description: 'Deve ser enviado um cep válido'
     })
-    cidade: string;
+    cep: string;
+
+    @IsString()
+    @IsOptional()
+    @ApiProperty({
+        example: 'Apartamento, Casa, Comercial, Loja',
+        description: 'Deve ser informado o complemento do endereço'
+    })
+    complemento: string;
 
     @IsEmail(undefined,{message:'email é inválido!'})
     @EmailUnico({message:'email ja cadastrado. Tente novamente.'})
