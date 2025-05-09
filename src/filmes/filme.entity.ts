@@ -1,5 +1,6 @@
 import { GENERO } from "src/genero/genero.entity";
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
+import { PESSOA } from "src/pessoa/pessoa.entity";
+import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, PrimaryColumn } from "typeorm";
 
 @Entity()
 export class FILME{
@@ -21,6 +22,13 @@ export class FILME{
     @ManyToOne(() => GENERO, genero => genero.filmes)
     @JoinColumn({name: 'IDGENERO', referencedColumnName:'ID'})
     genero: GENERO;
+
+    @ManyToMany(
+        () => PESSOA,
+        ator => ator.filmes,
+        {onDelete: 'NO ACTION', onUpdate: 'NO ACTION',},
+    )
+    atores?: PESSOA[];
 }
 //     constructor(id: string,nome: string,duracao: number,sinopse: string,
 //         ano: string,genero: string){
